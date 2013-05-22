@@ -508,6 +508,15 @@ class MegaCommandLineClient(object) :
             stop_time = time.time()
             self.status(self._get_status_transfert(size, start_time, stop_time))
 
+    def _norm_abs(self,path):
+        return os.path.normpath(os.path.abspath(path))
+
+    def _put_directory(self,path):
+        path = self._norm_abs(path)
+        #We can use this to map folders we've created 
+        path_map = {}
+
+
 
     @CLRunner.command()
     def reload(self, args, kwargs) :
@@ -524,7 +533,7 @@ class MegaCommandLineClient(object) :
         api = self.get_api()
         root = self.get_root()
         node = self.findnode(root, args[1], isdir=True)
-        api.create_folder(args[0], node['h'])
+        self.status(str(api.create_folder(args[0], node['h'])))
 
     @CLRunner.command()
     def geturl(self, args, kwargs) :
